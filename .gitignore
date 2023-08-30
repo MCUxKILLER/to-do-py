@@ -6,3 +6,4 @@ e*.py
 output.zip
 weather.csv
 __pycache__
+*.lock
