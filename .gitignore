@@ -5,3 +5,4 @@ journal
 e*.py
 output.zip
 weather.csv
+__pycache__
