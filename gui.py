@@ -2,7 +2,11 @@ import functions
 
 import PySimpleGUI as sG
 import time
+import os
 
+if not os.path.exists("todo.txt"):
+    with open("todo.txt",'w') as file:
+        pass
 sG.theme("BluePurple")
 
 clock = sG.Text("", key="clock")

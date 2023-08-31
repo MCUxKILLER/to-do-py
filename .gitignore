@@ -7,3 +7,6 @@ weather.csv
 __pycache__
 *.lock
 Bonus
+*.png
+gui.spec
+build
