@@ -3,10 +3,13 @@ import functions
 import PySimpleGUI as sG
 import time
 import os
+import re
 
 if not os.path.exists("todo.txt"):
-    with open("todo.txt",'w') as file:
+    with open("todo.txt", 'w') as file:
         pass
+
+text_regex = re.compile(r'\w+')
 sG.theme("BluePurple")
 
 clock = sG.Text("", key="clock")
@@ -15,7 +18,7 @@ input_text = sG.InputText(tooltip="Enter todo", key="todo")
 add_button = sG.Button(button_text="Add", size=10)
 list_view = sG.Listbox(values=functions.readfile(), key="todos", enable_events=True, size=(45, 10))
 edit_button = sG.Button("Edit", size=10)
-complete_button = sG.Button("Complete",size=10)
+complete_button = sG.Button("Complete", size=10)
 exit_button = sG.Button("Exit", size=8)
 
 column1 = [[clock], [label], [input_text], [list_view], [exit_button]]
@@ -33,21 +36,28 @@ while True:
     window['clock'].update(value=time.strftime("%b %d, %Y %H:%M:%S"))
     match event:
         case "Add":
-            todos = functions.readfile()
-            todos.append(value['todo'] + '\n')
-            functions.writefile(todos)
-            window['todos'].update(values=todos)
-            window['todo'].update(value='')
+            try:
+                assert text_regex.search(value['todo'].strip()) is not None, "Empty todo"
+                todos = functions.readfile()
+                todos.append(value['todo'].strip() + '\n')
+                functions.writefile(todos)
+                window['todos'].update(values=todos)
+                window['todo'].update(value='')
+            except AssertionError:
+                sG.popup("No empty spaces allowed, Enter a valid todo")
 
         case "Edit":
             try:
+                assert text_regex.search(value['todo'].strip()) is not None, "Empty todo"
                 todos = functions.readfile()
                 index = todos.index(value['todos'][0])
-                todos[index] = value['todo'] + '\n'
+                todos[index] = value['todo'].strip() + '\n'
                 functions.writefile(todos)
                 window['todos'].update(values=todos)
             except IndexError:
                 sG.popup("Please select a todo first")
+            except AssertionError:
+                sG.popup("Enter a todo for the edit")
 
         case "todos":
             window['todo'].update(value=value['todos'][0])
