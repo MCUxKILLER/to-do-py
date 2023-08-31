@@ -5,17 +5,17 @@ import time
 import os
 
 if not os.path.exists("todo.txt"):
-    with open("todo.txt",'w') as file:
+    with open("todo.txt", 'w') as file:
         pass
 sG.theme("BluePurple")
 
 clock = sG.Text("", key="clock")
 label = sG.Text("Type in a to-do:")
 input_text = sG.InputText(tooltip="Enter todo", key="todo")
-add_button = sG.Button(button_text="Add", size=10)
+add_button = sG.Button(button_text="Add", size=10, bind_return_key=True)
 list_view = sG.Listbox(values=functions.readfile(), key="todos", enable_events=True, size=(45, 10))
 edit_button = sG.Button("Edit", size=10)
-complete_button = sG.Button("Complete",size=10)
+complete_button = sG.Button("Complete", size=10)
 exit_button = sG.Button("Exit", size=8)
 
 column1 = [[clock], [label], [input_text], [list_view], [exit_button]]
