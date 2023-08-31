@@ -1,5 +1,2 @@
-Dance
-run 5 miles
-Play Valorant
 learn from mega course
-Play League
+create new todos
